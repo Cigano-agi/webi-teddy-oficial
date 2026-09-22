@@ -1,0 +1,898 @@
+{
+  "version": "1.0.0",
+  "reviewedAt": "2026-09-22",
+  "locale": "pt-BR",
+  "title": "Acessos para o WhatsApp oficial da Teddy",
+  "description": "Preencha somente IDs não secretos e estados de preparação. Nunca cole tokens, App Secret, senhas, PIN, códigos, dados de cartão ou dados de clientes.",
+  "status": "preparado_nao_publicado",
+  "groups": [
+    {
+      "id": "ativos",
+      "title": "1. Identificar os ativos Meta",
+      "description": "Copie identificadores e confirme a empresa selecionada.",
+      "fields": [
+        {
+          "id": "business_id",
+          "label": "ID do portfólio empresarial",
+          "help": "Copie business_id da URL do portfólio selecionado. Não é CNPJ nem senha.",
+          "path": "Meta Business Suite → Configurações → Informações do negócio",
+          "owner": "Gestor",
+          "type": "id",
+          "options": [],
+          "status": "pendente",
+          "required": true,
+          "source": "https://developers.facebook.com/documentation/business-messaging/whatsapp/get-started",
+          "value": null,
+          "sensitive": false,
+          "uiUrl": "https://business.facebook.com/",
+          "pattern": "^[0-9]{8,30}$",
+          "inputMode": "numeric",
+          "maxLength": 30
+        },
+        {
+          "id": "waba_id",
+          "label": "ID da conta do WhatsApp Business (WABA)",
+          "help": "Confirme a conta da Teddy e sua titularidade.",
+          "path": "Configurações → Contas → Contas do WhatsApp → selecionar conta → ID",
+          "owner": "Gestor",
+          "type": "id",
+          "options": [],
+          "status": "pendente",
+          "required": true,
+          "source": "https://developers.facebook.com/documentation/business-messaging/whatsapp/get-started",
+          "value": null,
+          "sensitive": false,
+          "uiUrl": "https://business.facebook.com/",
+          "pattern": "^[0-9]{8,30}$",
+          "inputMode": "numeric",
+          "maxLength": 30
+        },
+        {
+          "id": "app_id",
+          "label": "ID do aplicativo Meta",
+          "help": "Copie App ID. App Secret fica no canal privado.",
+          "path": "Painel de Apps → Configurações do app → Básico",
+          "owner": "Gestor + desenvolvedor",
+          "type": "id",
+          "options": [],
+          "status": "pendente",
+          "required": true,
+          "source": "https://developers.facebook.com/documentation/business-messaging/whatsapp/get-started",
+          "value": null,
+          "sensitive": false,
+          "uiUrl": "https://developers.facebook.com/apps/",
+          "pattern": "^[0-9]{8,30}$",
+          "inputMode": "numeric",
+          "maxLength": 30
+        },
+        {
+          "id": "phone_number_id",
+          "label": "ID do número de atendimento",
+          "help": "É Phone Number ID, não o telefone com DDD.",
+          "path": "Painel de Apps → Casos de uso → WhatsApp → Personalizar → Configuração da API; legado: WhatsApp → Configuração da API",
+          "owner": "Gestor + desenvolvedor",
+          "type": "id",
+          "options": [],
+          "status": "pendente",
+          "required": true,
+          "source": "https://developers.facebook.com/documentation/business-messaging/whatsapp/get-started",
+          "value": null,
+          "sensitive": false,
+          "uiUrl": "https://developers.facebook.com/apps/",
+          "pattern": "^[0-9]{8,30}$",
+          "inputMode": "numeric",
+          "maxLength": 30
+        },
+        {
+          "id": "asset_ownership_status",
+          "label": "Titularidade dos ativos",
+          "help": "Confirme quem é dono do portfólio, WABA, app e número.",
+          "path": "Configurações do negócio → Contas → Contas do WhatsApp / Apps",
+          "owner": "Gestor",
+          "type": "status",
+          "options": [
+            "nao_verificado",
+            "pendente",
+            "em_andamento",
+            "confirmado",
+            "bloqueado",
+            "nao_se_aplica"
+          ],
+          "status": "pendente",
+          "required": true,
+          "source": "https://developers.facebook.com/documentation/business-messaging/whatsapp/get-started",
+          "value": null,
+          "sensitive": false,
+          "uiUrl": "https://business.facebook.com/"
+        },
+        {
+          "id": "access_status",
+          "label": "Acesso da equipe aos ativos",
+          "help": "Conceda acesso nominal aos ativos necessários. Nunca compartilhe login, senha ou códigos.",
+          "path": "Configurações do negócio → Usuários → Pessoas ou Parceiros → atribuir ativos",
+          "owner": "Administrador do portfólio",
+          "type": "status",
+          "options": [
+            "nao_verificado",
+            "pendente",
+            "em_andamento",
+            "confirmado",
+            "bloqueado",
+            "nao_se_aplica"
+          ],
+          "status": "pendente",
+          "required": true,
+          "source": "https://developers.facebook.com/documentation/business-messaging/whatsapp/get-started",
+          "value": null,
+          "sensitive": false,
+          "uiUrl": "https://business.facebook.com/"
+        },
+        {
+          "id": "business_verification_status",
+          "label": "Verificação empresarial",
+          "help": "Informe o estado exibido. Verificação não garante aprovação do número nem ausência de restrições.",
+          "path": "Configurações → Central de Segurança / Suporte para empresas",
+          "owner": "Gestor",
+          "type": "status",
+          "options": [
+            "nao_verificado",
+            "nao_iniciado",
+            "em_analise",
+            "aprovado",
+            "pendencia",
+            "nao_exigido_no_fluxo"
+          ],
+          "status": "pendente",
+          "required": true,
+          "source": "https://developers.facebook.com/documentation/business-messaging/whatsapp/get-started",
+          "value": null,
+          "sensitive": false
+        }
+      ]
+    },
+    {
+      "id": "rota",
+      "title": "2. Confirmar número e forma de conexão",
+      "description": "Atendimento e acompanhamento serão oficiais. Dois fluxos podem usar o mesmo número.",
+      "fields": [
+        {
+          "id": "onboarding_status",
+          "label": "Rota de conexão",
+          "help": "Validar app próprio, provedor ou coexistência antes de qualquer desconexão.",
+          "path": "Painel de Apps → caso de uso WhatsApp → configuração/onboarding",
+          "owner": "Gestor + desenvolvedor",
+          "type": "status",
+          "options": [
+            "nao_definida",
+            "propria_empresa_validada",
+            "provedor_validado",
+            "coexistencia_em_validacao",
+            "coexistencia_validada",
+            "migracao_em_validacao",
+            "bloqueada"
+          ],
+          "status": "pendente",
+          "required": true,
+          "source": "https://developers.facebook.com/documentation/business-messaging/whatsapp/get-started",
+          "value": null,
+          "sensitive": false
+        },
+        {
+          "id": "number_status",
+          "label": "Situação do número",
+          "help": "Registre o estado real. Não exclua a conta nem desconecte a sessão para tentar avançar.",
+          "path": "WhatsApp Manager → Ferramentas da conta → Números de telefone → Status",
+          "owner": "Gestor",
+          "type": "status",
+          "options": [
+            "nao_verificado",
+            "novo",
+            "business_app",
+            "outro_provedor",
+            "em_registro",
+            "conectado",
+            "pendencia"
+          ],
+          "status": "pendente",
+          "required": true,
+          "source": "https://developers.facebook.com/documentation/business-messaging/whatsapp/business-phone-numbers/phone-numbers",
+          "value": null,
+          "sensitive": false,
+          "uiUrl": "https://business.facebook.com/wa/manage/"
+        },
+        {
+          "id": "followup_number_status",
+          "label": "Número para acompanhamento",
+          "help": "Dois fluxos podem usar o mesmo número. Dois números não compartilham a janela de atendimento.",
+          "path": "Definição com WEBi/Teddy; conferir depois em Configuração da API",
+          "owner": "Gestor + desenvolvedor",
+          "type": "status",
+          "options": [
+            "nao_definido",
+            "mesmo_numero",
+            "segundo_numero_em_validacao",
+            "segundo_numero_confirmado"
+          ],
+          "status": "pendente",
+          "required": true,
+          "source": "https://developers.facebook.com/documentation/business-messaging/whatsapp/get-started",
+          "value": null,
+          "sensitive": false
+        },
+        {
+          "id": "followup_waba_id",
+          "label": "WABA do segundo número (se houver)",
+          "help": "Vazio se usar o mesmo número. Pode ser a mesma WABA do atendimento.",
+          "path": "Configurações → Contas → Contas do WhatsApp → selecionar conta",
+          "owner": "Gestor",
+          "type": "id",
+          "options": [],
+          "status": "pendente",
+          "required": false,
+          "source": "https://developers.facebook.com/documentation/business-messaging/whatsapp/get-started",
+          "value": null,
+          "sensitive": false,
+          "pattern": "^[0-9]{8,30}$",
+          "inputMode": "numeric",
+          "maxLength": 30
+        },
+        {
+          "id": "followup_phone_number_id",
+          "label": "ID do segundo número (se houver)",
+          "help": "Preencha apenas se houver segundo número aprovado. Não cole o telefone.",
+          "path": "Configuração da API → número de acompanhamento → Phone Number ID",
+          "owner": "Gestor + desenvolvedor",
+          "type": "id",
+          "options": [],
+          "status": "pendente",
+          "required": false,
+          "source": "https://developers.facebook.com/documentation/business-messaging/whatsapp/get-started",
+          "value": null,
+          "sensitive": false,
+          "uiUrl": "https://developers.facebook.com/apps/",
+          "pattern": "^[0-9]{8,30}$",
+          "inputMode": "numeric",
+          "maxLength": 30
+        },
+        {
+          "id": "system_user_id",
+          "label": "ID do usuário do sistema (opcional)",
+          "help": "Aplicável à integração própria; informe somente o ID, nunca o token.",
+          "path": "Configurações do negócio → Usuários → Usuários do sistema",
+          "owner": "Desenvolvedor",
+          "type": "id",
+          "options": [],
+          "status": "pendente",
+          "required": false,
+          "source": "https://developers.facebook.com/documentation/business-messaging/whatsapp/access-tokens",
+          "value": null,
+          "sensitive": false,
+          "uiUrl": "https://business.facebook.com/",
+          "pattern": "^[0-9]{8,30}$",
+          "inputMode": "numeric",
+          "maxLength": 30
+        },
+        {
+          "id": "partner_business_id",
+          "label": "ID do portfólio do parceiro (se aplicável)",
+          "help": "Confirme o parceiro correto para atribuição dos ativos.",
+          "path": "Configurações do negócio → Usuários → Parceiros",
+          "owner": "Gestor + desenvolvedor",
+          "type": "id",
+          "options": [],
+          "status": "pendente",
+          "required": false,
+          "source": "https://developers.facebook.com/documentation/business-messaging/whatsapp/get-started",
+          "value": null,
+          "sensitive": false,
+          "uiUrl": "https://business.facebook.com/",
+          "pattern": "^[0-9]{8,30}$",
+          "inputMode": "numeric",
+          "maxLength": 30
+        },
+        {
+          "id": "embedded_signup_config_id",
+          "label": "Configuration ID (se aplicável)",
+          "help": "A equipe informa este ID no Cadastro Incorporado. Nunca cole código de autorização.",
+          "path": "Painel de Apps → Login do Facebook para Empresas → Configurações",
+          "owner": "Desenvolvedor",
+          "type": "id",
+          "options": [],
+          "status": "pendente",
+          "required": false,
+          "source": "https://developers.facebook.com/documentation/business-messaging/whatsapp/embedded-signup/versions",
+          "value": null,
+          "sensitive": false,
+          "uiUrl": "https://developers.facebook.com/apps/",
+          "pattern": "^[0-9]{8,30}$",
+          "inputMode": "numeric",
+          "maxLength": 30
+        }
+      ]
+    },
+    {
+      "id": "operacao",
+      "title": "3. Liberar a operação",
+      "description": "Informe estados de preparação. Evidências de consentimento e dados de contatos ficam no ambiente privado.",
+      "fields": [
+        {
+          "id": "billing_status",
+          "label": "Forma de pagamento",
+          "help": "Validar pagamento até 30/09/2026. Meta anuncia cobrança de serviço e utilidade dentro da janela a partir de 01/10. Não informar dados de cartão ou banco.",
+          "path": "Central de Cobrança → conta → Configurações de pagamento",
+          "owner": "Gestor financeiro",
+          "type": "status",
+          "options": [
+            "nao_verificado",
+            "pendente",
+            "cartao_configurado",
+            "credito_ou_provedor_validado",
+            "bloqueado"
+          ],
+          "status": "pendente",
+          "required": true,
+          "source": "https://developers.facebook.com/documentation/business-messaging/whatsapp/pricing/non-template-messages",
+          "value": null,
+          "sensitive": false,
+          "uiUrl": "https://business.facebook.com/latest/billing_hub/"
+        },
+        {
+          "id": "templates_status",
+          "label": "Modelos de mensagem",
+          "help": "Fora de 24h exige template aprovado. Equipe confere nome, idioma, categoria e parâmetros.",
+          "path": "WhatsApp Manager → Modelos de mensagem / Gerenciar modelos",
+          "owner": "Gestor aprova conteúdo; desenvolvedor configura",
+          "type": "status",
+          "options": [
+            "nao_verificado",
+            "a_criar",
+            "em_analise",
+            "aprovados",
+            "rejeitados_ou_pausados"
+          ],
+          "status": "pendente",
+          "required": true,
+          "source": "https://developers.facebook.com/documentation/business-messaging/whatsapp/templates/overview",
+          "value": null,
+          "sensitive": false,
+          "uiUrl": "https://business.facebook.com/wa/manage/"
+        },
+        {
+          "id": "consent_status",
+          "label": "Permissão para acompanhamento",
+          "help": "Confirmar registro de opt-in, finalidade e opção de parar. CRM não comprova autorização irrestrita.",
+          "path": "Captação da Teddy e registro privado no CRM/banco",
+          "owner": "Gestor",
+          "type": "status",
+          "options": [
+            "nao_verificado",
+            "pendente",
+            "em_andamento",
+            "confirmado",
+            "bloqueado",
+            "nao_se_aplica"
+          ],
+          "status": "pendente",
+          "required": true,
+          "source": "https://business.whatsapp.com/policy",
+          "value": null,
+          "sensitive": false
+        },
+        {
+          "id": "handoff_status",
+          "label": "Responsável humano e pausa do bot",
+          "help": "Confirmar como a equipe assume a conversa e interrompe os envios automáticos.",
+          "path": "Fluxo de atendimento / painel autenticado",
+          "owner": "Gestor + desenvolvedor",
+          "type": "status",
+          "options": [
+            "nao_verificado",
+            "pendente",
+            "em_andamento",
+            "confirmado",
+            "bloqueado",
+            "nao_se_aplica"
+          ],
+          "status": "pendente",
+          "required": true,
+          "source": "https://developers.facebook.com/documentation/business-messaging/whatsapp/get-started",
+          "value": null,
+          "sensitive": false
+        },
+        {
+          "id": "crm_status",
+          "label": "CRM e campos de qualificação",
+          "help": "Confirmar o RD Station previsto, os campos, as etapas e o responsável que receberá o contato. A equipe WEBi valida a integração durante a implantação.",
+          "path": "CRM → configuração de integração / funil",
+          "owner": "Gestor + desenvolvedor",
+          "type": "status",
+          "options": [
+            "nao_verificado",
+            "pendente",
+            "em_andamento",
+            "confirmado",
+            "bloqueado",
+            "nao_se_aplica"
+          ],
+          "status": "pendente",
+          "required": true,
+          "source": "https://developers.facebook.com/documentation/business-messaging/whatsapp/get-started",
+          "value": null,
+          "sensitive": false
+        },
+        {
+          "id": "webhook_status",
+          "label": "Webhook configurado e validado",
+          "help": "Desenvolvedor configura HTTPS, assinatura obrigatória, captura persistida e subscriptions. Este formulário não configura a Meta.",
+          "path": "Painel de Apps → Casos de uso → WhatsApp → Personalizar → Configuração → Webhooks",
+          "owner": "Desenvolvedor",
+          "type": "status",
+          "options": [
+            "nao_verificado",
+            "pendente",
+            "em_andamento",
+            "confirmado",
+            "bloqueado",
+            "nao_se_aplica"
+          ],
+          "status": "pendente",
+          "required": true,
+          "source": "https://developers.facebook.com/documentation/business-messaging/whatsapp/webhooks/create-webhook-endpoint",
+          "value": null,
+          "sensitive": false,
+          "uiUrl": "https://developers.facebook.com/apps/"
+        },
+        {
+          "id": "private_credentials_status",
+          "label": "Credenciais tratadas no canal privado",
+          "help": "Somente confirme o estado. Token, App Secret, verify token e PIN nunca entram aqui.",
+          "path": "Cofre ou canal privado combinado com o desenvolvedor",
+          "owner": "Gestor autorizado + desenvolvedor",
+          "type": "status",
+          "options": [
+            "nao_iniciado",
+            "canal_privado_definido",
+            "recebido_em_cofre",
+            "validado_pelo_desenvolvedor",
+            "pendente_de_rotacao"
+          ],
+          "status": "pendente",
+          "required": true,
+          "source": "https://developers.facebook.com/documentation/business-messaging/whatsapp/access-tokens",
+          "value": null,
+          "sensitive": false
+        }
+      ]
+    }
+  ],
+  "dataSchema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Respostas de preparação Meta — apenas IDs e status",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "business_id": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "pattern": "^[0-9]{8,30}$",
+        "maxLength": 30,
+        "description": "Copie business_id da URL do portfólio selecionado. Não é CNPJ nem senha."
+      },
+      "waba_id": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "pattern": "^[0-9]{8,30}$",
+        "maxLength": 30,
+        "description": "Confirme a conta da Teddy e sua titularidade."
+      },
+      "app_id": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "pattern": "^[0-9]{8,30}$",
+        "maxLength": 30,
+        "description": "Copie App ID. App Secret fica no canal privado."
+      },
+      "phone_number_id": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "pattern": "^[0-9]{8,30}$",
+        "maxLength": 30,
+        "description": "É Phone Number ID, não o telefone com DDD."
+      },
+      "asset_ownership_status": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "enum": [
+          null,
+          "nao_verificado",
+          "pendente",
+          "em_andamento",
+          "confirmado",
+          "bloqueado",
+          "nao_se_aplica"
+        ],
+        "description": "Confirme quem é dono do portfólio, WABA, app e número."
+      },
+      "access_status": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "enum": [
+          null,
+          "nao_verificado",
+          "pendente",
+          "em_andamento",
+          "confirmado",
+          "bloqueado",
+          "nao_se_aplica"
+        ],
+        "description": "Conceda acesso nominal aos ativos necessários. Nunca compartilhe login, senha ou códigos."
+      },
+      "business_verification_status": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "enum": [
+          null,
+          "nao_verificado",
+          "nao_iniciado",
+          "em_analise",
+          "aprovado",
+          "pendencia",
+          "nao_exigido_no_fluxo"
+        ],
+        "description": "Informe o estado exibido. Verificação não garante aprovação do número nem ausência de restrições."
+      },
+      "onboarding_status": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "enum": [
+          null,
+          "nao_definida",
+          "propria_empresa_validada",
+          "provedor_validado",
+          "coexistencia_em_validacao",
+          "coexistencia_validada",
+          "migracao_em_validacao",
+          "bloqueada"
+        ],
+        "description": "Validar app próprio, provedor ou coexistência antes de qualquer desconexão."
+      },
+      "number_status": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "enum": [
+          null,
+          "nao_verificado",
+          "novo",
+          "business_app",
+          "outro_provedor",
+          "em_registro",
+          "conectado",
+          "pendencia"
+        ],
+        "description": "Registre o estado real. Não exclua a conta nem desconecte a sessão para tentar avançar."
+      },
+      "followup_number_status": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "enum": [
+          null,
+          "nao_definido",
+          "mesmo_numero",
+          "segundo_numero_em_validacao",
+          "segundo_numero_confirmado"
+        ],
+        "description": "Dois fluxos podem usar o mesmo número. Dois números não compartilham a janela de atendimento."
+      },
+      "followup_waba_id": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "pattern": "^[0-9]{8,30}$",
+        "maxLength": 30,
+        "description": "Vazio se usar o mesmo número. Pode ser a mesma WABA do atendimento."
+      },
+      "followup_phone_number_id": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "pattern": "^[0-9]{8,30}$",
+        "maxLength": 30,
+        "description": "Preencha apenas se houver segundo número aprovado. Não cole o telefone."
+      },
+      "system_user_id": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "pattern": "^[0-9]{8,30}$",
+        "maxLength": 30,
+        "description": "Aplicável à integração própria; informe somente o ID, nunca o token."
+      },
+      "partner_business_id": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "pattern": "^[0-9]{8,30}$",
+        "maxLength": 30,
+        "description": "Confirme o parceiro correto para atribuição dos ativos."
+      },
+      "embedded_signup_config_id": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "pattern": "^[0-9]{8,30}$",
+        "maxLength": 30,
+        "description": "A equipe informa este ID no Cadastro Incorporado. Nunca cole código de autorização."
+      },
+      "billing_status": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "enum": [
+          null,
+          "nao_verificado",
+          "pendente",
+          "cartao_configurado",
+          "credito_ou_provedor_validado",
+          "bloqueado"
+        ],
+        "description": "Validar pagamento até 30/09/2026. Meta anuncia cobrança de serviço e utilidade dentro da janela a partir de 01/10. Não informar dados de cartão ou banco."
+      },
+      "templates_status": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "enum": [
+          null,
+          "nao_verificado",
+          "a_criar",
+          "em_analise",
+          "aprovados",
+          "rejeitados_ou_pausados"
+        ],
+        "description": "Fora de 24h exige template aprovado. Equipe confere nome, idioma, categoria e parâmetros."
+      },
+      "consent_status": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "enum": [
+          null,
+          "nao_verificado",
+          "pendente",
+          "em_andamento",
+          "confirmado",
+          "bloqueado",
+          "nao_se_aplica"
+        ],
+        "description": "Confirmar registro de opt-in, finalidade e opção de parar. CRM não comprova autorização irrestrita."
+      },
+      "handoff_status": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "enum": [
+          null,
+          "nao_verificado",
+          "pendente",
+          "em_andamento",
+          "confirmado",
+          "bloqueado",
+          "nao_se_aplica"
+        ],
+        "description": "Confirmar como a equipe assume a conversa e interrompe os envios automáticos."
+      },
+      "crm_status": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "enum": [
+          null,
+          "nao_verificado",
+          "pendente",
+          "em_andamento",
+          "confirmado",
+          "bloqueado",
+          "nao_se_aplica"
+        ],
+        "description": "Confirmar o RD Station previsto, os campos, as etapas e o responsável que receberá o contato. A equipe WEBi valida a integração durante a implantação."
+      },
+      "webhook_status": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "enum": [
+          null,
+          "nao_verificado",
+          "pendente",
+          "em_andamento",
+          "confirmado",
+          "bloqueado",
+          "nao_se_aplica"
+        ],
+        "description": "Desenvolvedor configura HTTPS, assinatura obrigatória, captura persistida e subscriptions. Este formulário não configura a Meta."
+      },
+      "private_credentials_status": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "enum": [
+          null,
+          "nao_iniciado",
+          "canal_privado_definido",
+          "recebido_em_cofre",
+          "validado_pelo_desenvolvedor",
+          "pendente_de_rotacao"
+        ],
+        "description": "Somente confirme o estado. Token, App Secret, verify token e PIN nunca entram aqui."
+      }
+    },
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "followup_number_status": {
+              "const": "mesmo_numero"
+            }
+          },
+          "required": [
+            "followup_number_status"
+          ]
+        },
+        "then": {
+          "properties": {
+            "followup_waba_id": {
+              "type": "null"
+            },
+            "followup_phone_number_id": {
+              "type": "null"
+            }
+          }
+        }
+      },
+      {
+        "if": {
+          "properties": {
+            "followup_number_status": {
+              "const": "segundo_numero_confirmado"
+            }
+          },
+          "required": [
+            "followup_number_status"
+          ]
+        },
+        "then": {
+          "required": [
+            "followup_waba_id",
+            "followup_phone_number_id"
+          ],
+          "properties": {
+            "followup_waba_id": {
+              "type": "string"
+            },
+            "followup_phone_number_id": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    ]
+  },
+  "handling": {
+    "collectSecrets": false,
+    "allowFileUploads": false,
+    "allowFreeText": false,
+    "publishResponses": false,
+    "defaultValues": null,
+    "notes": "IDs são strings para preservar precisão. Vazio vira null. Required sinaliza item necessário para implantação; rascunho pode ficar incompleto. O schema valida rascunho e rejeita propriedades extras; conferir campos necessários e relações antes do aceite. Com envio ao servidor, aplicar o mesmo schema e controle de acesso. Não colocar respostas em query string nem analytics. Sem backend, oferecer exportação local e não prometer envio à equipe."
+  },
+  "readinessRules": [
+    {
+      "when": {
+        "followup_number_status": "mesmo_numero"
+      },
+      "mustBeEmpty": [
+        "followup_waba_id",
+        "followup_phone_number_id"
+      ]
+    },
+    {
+      "when": {
+        "followup_number_status": "segundo_numero_confirmado"
+      },
+      "mustBeFilled": [
+        "followup_waba_id",
+        "followup_phone_number_id"
+      ]
+    }
+  ],
+  "privateItems": [
+    {
+      "label": "Access token Meta",
+      "input": false,
+      "owner": "Administrador do portfólio + WEBi",
+      "instruction": "A WEBi confirma a rota antes de gerar o token. Os passos abaixo são para app da própria empresa; no fluxo de provedor, o backend obtém o token após o cadastro incorporado oficial.",
+      "steps": [
+        "Abra Meta Business Suite → Configurações → Usuários → Usuários do sistema. Selecione ou crie o usuário técnico da integração.",
+        "Em Atribuir ativos, vincule o aplicativo e a conta do WhatsApp necessários à Teddy, com as permissões adequadas a esses ativos.",
+        "Clique em Gerar token. Selecione o aplicativo e confira a validade oferecida pelo painel.",
+        "Selecione whatsapp_business_messaging e whatsapp_business_management. business_management só entra se a operação de portfólio ou o onboarding escolhido exigir.",
+        "Gere o token e entregue diretamente no cofre/canal privado combinado. A WEBi verifica escopo, validade e acesso ao número antes de colocá-lo no servidor. Não use o token temporário da tela de testes como credencial de produção."
+      ]
+    },
+    {
+      "label": "App Secret · segredo do aplicativo",
+      "input": false,
+      "owner": "Administrador autorizado do app",
+      "instruction": "Este valor verifica se os eventos recebidos vieram da Meta. É diferente do App ID.",
+      "steps": [
+        "Abra developers.facebook.com/apps → selecione o app correto → Configurações do app → Básico.",
+        "Localize Chave secreta do app / App Secret e use Mostrar, cumprindo a verificação de identidade que a Meta apresentar.",
+        "Compartilhe somente pelo canal privado definido. A WEBi configura esse segredo no servidor para verificar a assinatura dos eventos."
+      ]
+    },
+    {
+      "label": "Verify token e URL do webhook",
+      "input": false,
+      "owner": "Equipe técnica WEBi",
+      "instruction": "O gestor não precisa procurar um verify token existente. A equipe técnica cria esse valor e fornece a URL de retorno.",
+      "steps": [
+        "A WEBi gera um segredo aleatório para o verify token e o configura no servidor, junto da URL HTTPS de recebimento.",
+        "No app Meta, abra o caso de uso WhatsApp → Configuração → Webhooks → Editar. Informe URL de retorno e token de verificação; conclua Verificar e salvar.",
+        "A equipe assina o campo messages e a WABA no aplicativo, verifica a assinatura dos eventos e testa recebimento, envio e status de entrega."
+      ]
+    },
+    {
+      "label": "Código SMS/voz e PIN do número",
+      "input": false,
+      "owner": "Titular do número + equipe técnica",
+      "instruction": "O titular conclui a verificação no fluxo oficial. Não inserir código ou PIN neste checklist.",
+      "steps": [
+        "Confira o número em WhatsApp Manager → Números de telefone e siga o fluxo de registro ou migração definido com a WEBi.",
+        "Quando a Meta pedir, receba o código por SMS/voz na linha autorizada. O PIN de duas etapas é configurado ou consultado pelo titular nos controles oficiais do número.",
+        "Se a rota for coexistência com o aplicativo WhatsApp Business, siga o cadastro incorporado específico; não aplique um registro convencional por tentativa."
+      ]
+    },
+    {
+      "label": "Credenciais de IA, banco e CRM",
+      "input": false,
+      "owner": "Responsáveis das contas + equipe técnica WEBi",
+      "instruction": "A WEBi confirma os fornecedores, ambientes e acessos necessários antes da implantação.",
+      "steps": [
+        "Conceda acesso nominal ou use o cofre privado combinado para os ambientes da Teddy.",
+        "A equipe configura as credenciais no servidor e testa a integração. Nenhuma chave de outro cliente deve ser reutilizada."
+      ]
+    }
+  ]
+}
